@@ -47,29 +47,6 @@ elsif info =~ /No app specified/i
   end
 end
 
-if (root_id = `git rev-list --max-parents=0 HEAD`.chomp) != '620acffa5a302c6a27165d3214cf3da6be6c1d0d'
-  if (`git remote`.split - %w[heroku]).empty?
-    puts "You don't seem to have huginn/huginn set up as upstream repository."
-    if yes?("Would you like me to set this working tree up for you?", default: :yes)
-      if system('git remote add origin https://github.com/huginn/huginn.git') &&
-        system('git remote update origin')
-        rebase_command = "git rebase #{root_id} --onto origin/master"
-        if system(rebase_command)
-          puts "Done!"
-        else
-          system('git rebase --abort')
-          puts "Rebasing your working tree onto the upstream master failed."
-          puts "Please run the following command and merge your local changes by yourself."
-          puts "\t#{rebase_command}"
-          exit 1
-        end
-      else
-        exit 1
-      end
-    end
-  end
-end
-
 app_name = info.scan(/https?:\/\/([\w\d-]+)\.herokuapp\.com/).flatten.first
 confirm_app_name app_name
 grab_heroku_config!
@@ -82,7 +59,6 @@ unless $config['DOMAIN']
 end
 
 set_value 'BUILDPACK_URL', "https://github.com/heroku/heroku-buildpack-multi.git"
-set_value 'PROCFILE_PATH', "deployment/heroku/Procfile.heroku", force: false
 set_value 'ON_HEROKU', "true"
 
 unless $config['DATABASE_URL']
@@ -91,28 +67,28 @@ unless $config['DATABASE_URL']
   puts
 end
 
-unless $config['SMTP_DOMAIN'] && $config['SMTP_USER_NAME'] && $config['SMTP_PASSWORD'] && $config['SMTP_SERVER'] && $config['EMAIL_FROM_ADDRESS']
-  puts "Okay, let's setup outgoing email settings.  The simplest solution is to use the free sendgrid Heroku addon."
-  puts "If you'd like to use your own server, or your Gmail account, please see .env.example and set"
-  puts "SMTP_DOMAIN, SMTP_USER_NAME, SMTP_PASSWORD, and SMTP_SERVER with 'heroku config:set'."
-  if yes?("Should I enable the free sendgrid addon?")
-    puts capture("heroku addons:add sendgrid")
+# unless $config['SMTP_DOMAIN'] && $config['SMTP_USER_NAME'] && $config['SMTP_PASSWORD'] && $config['SMTP_SERVER'] && $config['EMAIL_FROM_ADDRESS']
+#   puts "Okay, let's setup outgoing email settings.  The simplest solution is to use the free sendgrid Heroku addon."
+#   puts "If you'd like to use your own server, or your Gmail account, please see .env.example and set"
+#   puts "SMTP_DOMAIN, SMTP_USER_NAME, SMTP_PASSWORD, and SMTP_SERVER with 'heroku config:set'."
+#   if yes?("Should I enable the free sendgrid addon?")
+#     puts capture("heroku addons:add sendgrid")
 
-    set_value 'SMTP_SERVER', "smtp.sendgrid.net", silent: true
-    set_value 'SMTP_DOMAIN', "heroku.com", silent: true
+#     set_value 'SMTP_SERVER', "smtp.sendgrid.net", silent: true
+#     set_value 'SMTP_DOMAIN', "heroku.com", silent: true
 
-    grab_heroku_config!
-    set_value 'SMTP_USER_NAME', $config['SENDGRID_USERNAME'], silent: true
-    set_value 'SMTP_PASSWORD', $config['SENDGRID_PASSWORD'], silent: true
-  else
-    puts "Okay, you'll need to set SMTP_DOMAIN, SMTP_USER_NAME, SMTP_PASSWORD, and SMTP_SERVER with 'heroku config:set' manually."
-  end
+#     grab_heroku_config!
+#     set_value 'SMTP_USER_NAME', $config['SENDGRID_USERNAME'], silent: true
+#     set_value 'SMTP_PASSWORD', $config['SENDGRID_PASSWORD'], silent: true
+#   else
+#     puts "Okay, you'll need to set SMTP_DOMAIN, SMTP_USER_NAME, SMTP_PASSWORD, and SMTP_SERVER with 'heroku config:set' manually."
+#   end
 
-  unless $config['EMAIL_FROM_ADDRESS']
-    email = nag("What email address would you like email to appear to be sent from?")
-    set_value 'EMAIL_FROM_ADDRESS', email
-  end
-end
+#   unless $config['EMAIL_FROM_ADDRESS']
+#     email = nag("What email address would you like email to appear to be sent from?")
+#     set_value 'EMAIL_FROM_ADDRESS', email
+#   end
+# end
 
 branch = capture("git rev-parse --abbrev-ref HEAD")
 if yes?("Should I push your current branch (#{branch}) to heroku?", default: :yes)
@@ -120,7 +96,11 @@ if yes?("Should I push your current branch (#{branch}) to heroku?", default: :ye
   puts capture("git push heroku #{branch}:master -f")
 
   puts "Running database migrations..."
-  puts capture("heroku run rake db:migrate")
+  if first_time
+    puts capture("heroku run rake db:schema:load")
+  else
+    puts capture("heroku run rake db:migrate")
+  end
 end
 
 if first_time
