@@ -21,7 +21,7 @@
 # https://github.com/huginn/huginn/doc
 
 # Using the threaded worker (consumes less RAM but can run slower)
-web: bundle exec unicorn -c config/unicorn.rb
+web: bundle exec unicorn -p $PORT -c config/unicorn.rb
 jobs: bundle exec rails runner bin/threaded.rb
 
 # Old version with separate processes (use this if you have issues with the threaded version)
