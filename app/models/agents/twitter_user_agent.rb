@@ -107,7 +107,7 @@ module Agents
         opts.merge!(:max_id => max_id) if max_id
 
         tweets = process_tweets(opts)
-        break if tweets.size == 0 || tweets.last.created_at >= starting_at
+        break if tweets.size == 0 || tweets.last.created_at < starting_at
 
         sleep 1
         max_id = tweets.last.id
