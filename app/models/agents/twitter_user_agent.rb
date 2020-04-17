@@ -16,7 +16,7 @@ module Agents
       To follow your own home timeline set `choose_home_time_line` to `true`.
 
       Set `include_retweets` to `false` to not include retweets (default: `true`)
-      
+
       Set `exclude_replies` to `true` to exclude replies (default: `false`)
 
       Set `expected_update_period_in_days` to the maximum amount of time that you'd expect to pass between Events being created by this Agent.
@@ -91,16 +91,30 @@ module Agents
     def include_retweets?
       interpolated[:include_retweets] != "false"
     end
-    
+
     def exclude_replies?
       boolify(interpolated[:exclude_replies]) || false
     end
 
     def check
-      since_id = memory['since_id'] || nil
       opts = {:count => 200, :include_rts => include_retweets?, :exclude_replies => exclude_replies?, :include_entities => true, :contributor_details => true, tweet_mode: 'extended'}
       opts.merge! :since_id => since_id unless since_id.nil?
 
+      max_id = nil
+      loop do
+        log("opts #{opts.inspect}")
+        opts.merge!(:max_id => max_id) if max_id
+
+        tweets = process_tweets(opts)
+        max_id = tweets.last.id
+
+        break if tweets.size == 0 || tweets.last.created_at >= starting_at
+      end
+    end
+
+    private
+
+    def process_tweets(opts)
       if choose_home_time_line?
         tweets = twitter.home_timeline(opts)
       else
@@ -110,7 +124,6 @@ module Agents
       tweets.each do |tweet|
         if tweet.created_at >= starting_at
           memory['since_id'] = tweet.id if !memory['since_id'] || (tweet.id > memory['since_id'])
-
           create_event :payload => tweet.attrs
         end
       end
