@@ -109,7 +109,7 @@ module Agents
         tweets = process_tweets(opts)
         max_id = tweets.last.id
 
-        break if tweets.size == 0 || tweets.last.created_at >= starting_at
+        break if tweets.size == 0
       end
     end
 
