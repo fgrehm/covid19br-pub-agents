@@ -97,6 +97,7 @@ module Agents
     end
 
     def check
+      since_id = memory['since_id'] || nil
       opts = {:count => 200, :include_rts => include_retweets?, :exclude_replies => exclude_replies?, :include_entities => true, :contributor_details => true, tweet_mode: 'extended'}
       opts.merge! :since_id => since_id unless since_id.nil?
 
