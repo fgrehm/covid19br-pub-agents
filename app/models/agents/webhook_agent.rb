@@ -10,7 +10,7 @@ module Agents
       The Webhook Agent will create events by receiving webhooks from any source. In order to create events with this agent, make a POST request to:
 
       ```
-         https://#{ENV['DOMAIN']}/users/#{user.id}/web_requests/#{id || ':id'}/#{options['secret'] || ':secret'}
+         https://#{ENV['DOMAIN']}/users/#{user.id}/web_requests/#{id || ':id'}/#{interpolated['secret'] || ':secret'}
       ```
 
       #{'The placeholder symbols above will be replaced by their values once the agent is saved.' unless id}
