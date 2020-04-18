@@ -107,7 +107,7 @@ module Agents
 
         tweets = process_tweets(opts)
         log("#{tweets.size}, #{tweets.last.try(:created_at).as_json}, #{starting_at.as_json} opts #{opts.inspect}")
-        break if tweets.size <= opts[:count] || tweets.last.created_at < starting_at
+        break if tweets.size < opts[:count] || tweets.last.created_at < starting_at
 
         sleep 1
         max_id = tweets.last.id
