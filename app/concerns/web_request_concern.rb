@@ -106,6 +106,9 @@ module WebRequestConcern
     faraday_options = {
       ssl: {
         verify: !boolify(options['disable_ssl_verification'])
+      },
+      request: {
+        timeout: 60
       }
     }
 
