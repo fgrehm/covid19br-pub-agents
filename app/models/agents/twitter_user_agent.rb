@@ -106,7 +106,7 @@ module Agents
         opts.merge!(:max_id => max_id) if max_id
 
         tweets = process_tweets(opts)
-        log("#{tweets.size}, #{tweets.last.created_at.as_json}, #{starting_at.as_json} opts #{opts.inspect}")
+        log("#{tweets.size}, #{tweets.last.try(:created_at).as_json}, #{starting_at.as_json} opts #{opts.inspect}")
         break if tweets.size == 0 || tweets.last.created_at < starting_at
 
         sleep 1
