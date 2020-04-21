@@ -611,9 +611,9 @@ module Agents
       extract_each { |extraction_details, values|
         case
         when css = extraction_details['css']
-          nodes = doc.css(css)
+          nodes = doc.css(css, NokogiriRegex.new)
         when xpath = extraction_details['xpath']
-          nodes = doc.xpath(xpath)
+          nodes = doc.xpath(xpath, NokogiriRegex.new)
         else
           raise '"css" or "xpath" is required for HTML or XML extraction'
         end
@@ -754,6 +754,15 @@ module Agents
     class HeaderDrop < LiquidDroppable::Drop
       def liquid_method_missing(name)
         @object[name.tr('_', '-')]
+      end
+    end
+
+    # Add support for regex selectors
+    class NokogiriRegex
+      def regex(node_set, regex)
+        node_set.find_all do |node|
+          node.text =~ /#{regex}/
+        end
       end
     end
   end
