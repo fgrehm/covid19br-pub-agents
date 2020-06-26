@@ -1,5 +1,4 @@
 require 'json'
-require 'google/apis/calendar_v3'
 
 module Agents
   class GoogleCalendarPublishAgent < Agent
