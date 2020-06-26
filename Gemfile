@@ -29,26 +29,26 @@ end
 
 # Optional libraries.  To conserve RAM, comment out any that you don't need,
 # then run `bundle` and commit the updated Gemfile and Gemfile.lock.
-gem 'twilio-ruby', '~> 3.11.5'    # TwilioAgent
-gem 'ruby-growl', '~> 4.1.0'      # GrowlAgent
-gem 'net-ftp-list', '~> 3.2.8'    # FtpsiteAgent
-gem 'forecast_io', '~> 2.0.0'     # WeatherAgent
-gem 'rturk', '~> 2.12.1'          # HumanTaskAgent
+# gem 'twilio-ruby', '~> 3.11.5'    # TwilioAgent
+# gem 'ruby-growl', '~> 4.1.0'      # GrowlAgent
+# gem 'net-ftp-list', '~> 3.2.8'    # FtpsiteAgent
+# gem 'forecast_io', '~> 2.0.0'     # WeatherAgent
+# gem 'rturk', '~> 2.12.1'          # HumanTaskAgent
 gem 'erector', github: 'dsander/erector', branch: 'rails6'
-gem 'hipchat', '~> 1.2.0'         # HipchatAgent
+# gem 'hipchat', '~> 1.2.0'         # HipchatAgent
 gem 'mini_racer', '~> 0.2.4'      # JavaScriptAgent
-gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
-gem 'mqtt'                        # MQTTAgent
-gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
-gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
+# gem 'xmpp4r',  '~> 0.5.6'         # JabberAgent
+# gem 'mqtt'                        # MQTTAgent
+# gem 'slack-notifier', '~> 1.0.0'  # SlackAgent
+# gem 'hypdf', '~> 1.0.10'          # PDFInfoAgent
 
 # Weibo Agents
 # FIXME needs to loosen omniauth dependency, add rest-client
-gem 'weibo_2', github: 'albertsun/weibo_2', branch: 'master'
+# gem 'weibo_2', github: 'albertsun/weibo_2', branch: 'master'
 
 # GoogleCalendarPublishAgent and GoogleTranslateAgent
-gem 'google-api-client', '~> 0.13'
-gem 'google-cloud-translate', '~> 1.0.0', require: 'google/cloud/translate'
+# gem 'google-api-client', '~> 0.13'
+# gem 'google-cloud-translate', '~> 1.0.0', require: 'google/cloud/translate'
 
 # Twitter Agents
 gem 'twitter', github: 'sferik/twitter' # Must to be loaded before cantino-twitter-stream.
@@ -57,19 +57,19 @@ gem 'omniauth-twitter', '~> 1.3.0'
 
 # Tumblr Agents
 # until merge of https://github.com/tumblr/tumblr_client/pull/61
-gem 'tumblr_client', github: 'albertsun/tumblr_client', branch: 'master', ref: 'e046fe6e39291c173add0a49081630c7b60a36c7'
-gem 'omniauth-tumblr', '~> 1.2'
+# gem 'tumblr_client', github: 'albertsun/tumblr_client', branch: 'master', ref: 'e046fe6e39291c173add0a49081630c7b60a36c7'
+# gem 'omniauth-tumblr', '~> 1.2'
 
 # Dropbox Agents
-gem 'dropbox-api', github: 'dsander/dropbox-api', ref: '86cb7b5a1254dc5b054de7263835713c4c1018c7'
-gem 'omniauth-dropbox-oauth2', github: 'bamorim/omniauth-dropbox-oauth2', ref: '35046706fb781ed3b57dfb9c3cd44ed0f3d3f8ea'
+# gem 'dropbox-api', github: 'dsander/dropbox-api', ref: '86cb7b5a1254dc5b054de7263835713c4c1018c7'
+# gem 'omniauth-dropbox-oauth2', github: 'bamorim/omniauth-dropbox-oauth2', ref: '35046706fb781ed3b57dfb9c3cd44ed0f3d3f8ea'
 
 # UserLocationAgent
-gem 'haversine'
+# gem 'haversine'
 
 # EvernoteAgent
-gem 'omniauth-evernote'
-gem 'evernote_oauth'
+# gem 'omniauth-evernote'
+# gem 'evernote_oauth'
 
 # LocalFileAgent (watch functionality)
 gem 'listen', '~> 3.0.5', require: false
@@ -78,8 +78,8 @@ gem 'listen', '~> 3.0.5', require: false
 gem 'aws-sdk-core', '~> 2.2.15'
 
 # Optional Services.
-gem 'omniauth-37signals'          # BasecampAgent
-gem 'omniauth-wunderlist'
+# gem 'omniauth-37signals'          # BasecampAgent
+# gem 'omniauth-wunderlist'
 
 # Bundler <1.5 does not recognize :x64_mingw as a valid platform name.
 # Unfortunately, it can't self-update because it errors when encountering :x64_mingw.
@@ -179,9 +179,9 @@ require 'rbconfig'
 gem 'ffi', '>= 1.9.4'		# required by typhoeus; 1.9.4 has fixes for *BSD.
 gem 'tzinfo', '>= 1.2.0'	# required by rails; 1.2.0 has support for *BSD and Solaris.
 # Windows does not have zoneinfo files, so bundle the tzinfo-data gem.
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 # BSD systems require rb-kqueue for "listen" to avoid polling for changes.
-gem 'rb-kqueue', '>= 0.2', require: /bsd|dragonfly/i === RbConfig::CONFIG['target_os']
+# gem 'rb-kqueue', '>= 0.2', require: /bsd|dragonfly/i === RbConfig::CONFIG['target_os']
 
 
 on_heroku = ENV['ON_HEROKU'] ||
