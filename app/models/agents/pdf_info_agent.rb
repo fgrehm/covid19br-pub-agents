@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'hypdf'
 
 module Agents
   class PdfInfoAgent < Agent
