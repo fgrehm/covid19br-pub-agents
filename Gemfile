@@ -136,7 +136,7 @@ group :development do
   gem 'guard', '~> 2.14.1'
   gem 'guard-livereload', '~> 2.5.1'
   gem 'guard-rspec', '~> 4.7.3'
-  gem 'rack-livereload', '~> 0.3.16'
+  # gem 'rack-livereload', '~> 0.3.16'
   gem 'letter_opener_web', '~> 1.3.1'
   gem 'web-console', '>= 3.3.0'
 
@@ -189,20 +189,7 @@ on_heroku = ENV['ON_HEROKU'] ||
             ENV['HEROKU_POSTGRESQL_GOLD_URL'] ||
             File.read(File.join(File.dirname(__FILE__), 'Procfile')) =~ /intended for Heroku/
 
-ENV['DATABASE_ADAPTER'] ||=
-  if on_heroku
-    'postgresql'
-  else
-    'mysql2'
-  end
-
-if_true(ENV['DATABASE_ADAPTER'].strip == 'postgresql') do
-  gem 'pg', '~> 1.1.3'
-end
-
-if_true(ENV['DATABASE_ADAPTER'].strip == 'mysql2') do
-  gem 'mysql2' , "~> 0.5.2"
-end
+gem 'pg', '~> 1.1.3'
 
 GemfileHelper.parse_each_agent_gem(ENV['ADDITIONAL_GEMS']) do |args|
   gem *args
