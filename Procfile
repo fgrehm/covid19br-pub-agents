@@ -17,7 +17,7 @@
 ###############################
 
 # Using the threaded worker (consumes less RAM but can run slower)
-web: bundle exec unicorn -p $PORT -c config/unicorn.rb
+web: bundle exec puma -C config/puma.rb
 jobs: bundle exec rails runner bin/threaded.rb
 
 ###############################

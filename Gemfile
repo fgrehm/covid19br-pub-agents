@@ -167,7 +167,7 @@ group :development do
 end
 
 group :production do
-  gem 'unicorn', '~> 5.1.0'
+  gem 'puma'
 end
 
 # Platform requirements.
