@@ -58,6 +58,13 @@ unless $config['DOMAIN']
   first_time = true
 end
 
+fail "Need to tweak script to work with heroku's buildpack command"
+# TODO: Make it read from app.json
+# heroku buildpacks:set heroku/ruby
+# heroku buildpacks:add --index 1 https://github.com/cantino/heroku-selectable-procfile
+# heroku buildpacks:add --index 1 https://github.com/weibeld/heroku-buildpack-graphviz
+# heroku buildpacks:add --index 1 https://github.com/chrismytton/heroku-buildpack-jq
+# heroku buildpacks:add --index 1 http://github.com/kr/heroku-buildpack-inline
 set_value 'BUILDPACK_URL', "https://github.com/heroku/heroku-buildpack-multi.git"
 set_value 'ON_HEROKU', "true"
 

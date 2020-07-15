@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# This is for the inline heroku buildpack
+# this pack is always valid
+exit 0

@@ -4,18 +4,24 @@
     "website": "https://github.com/huginn/huginn",
     "repository": "https://github.com/huginn/huginn",
     "logo": "https://raw.githubusercontent.com/huginn/huginn/master/media/huginn-icon-64.png",
+    "buildpacks": [
+      { "url": "https://github.com/cantino/heroku-selectable-procfile" },
+      { "url": "https://github.com/weibeld/heroku-buildpack-graphviz" },
+      { "url": "https://github.com/chrismytton/heroku-buildpack-jq" },
+      { "url": "http://github.com/kr/heroku-buildpack-inline" },
+      { "url": "heroku/ruby" }
+    ],
     "env": {
-        "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-multi.git",
-        "APP_SECRET_TOKEN": {
-            "generator": "secret"
-        },
-        "PROCFILE_PATH": "deployment/heroku/Procfile.heroku",
-        "ON_HEROKU": "true",
-        "FORCE_SSL": "true",
-        "INVITATION_CODE": {
-            "generator": "secret"
-        },
-        "USE_GRAPHVIZ_DOT": "dot"
+      "APP_SECRET_TOKEN": {
+        "generator": "secret"
+      },
+      "PROCFILE_PATH": "deployment/heroku/Procfile.heroku",
+      "ON_HEROKU": "true",
+      "FORCE_SSL": "true",
+      "INVITATION_CODE": {
+        "generator": "secret"
+      },
+      "USE_GRAPHVIZ_DOT": "dot"
     },
     "scripts": {
       "postdeploy": "bundle exec rake db:migrate"
