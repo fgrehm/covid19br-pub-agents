@@ -2,4 +2,5 @@
 
 set -eo pipefail
 
+BUILD_DIR="${1}"
 curl -sSfL https://github.com/fgrehm/brinfo/raw/master/install.sh | bash -s -- -d -b $BUILD_DIR/vendor/bin
